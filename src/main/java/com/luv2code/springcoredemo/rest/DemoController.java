@@ -12,10 +12,12 @@ public class DemoController {
     //define private field for the dependecny
 
     private Coach myCoach;
+    private Coach anotherCoach;
 
     @Autowired
-    public DemoController(@Qualifier("baseballCoach") Coach theCoach){
+    public DemoController(@Qualifier("cricketCoach") Coach theCoach,@Qualifier("cricketCoach") Coach theAnotherCoach){
         myCoach=theCoach;
+        anotherCoach=theAnotherCoach;
     }
 
     @GetMapping("dailyworkout")
@@ -23,5 +25,10 @@ public class DemoController {
         return myCoach.getDailyWorkout();
     }
 
+
+    @GetMapping("/check")
+    public String check(){
+        return "Comparing beans: myCoach == anotherCoach, " + (myCoach == anotherCoach);
+    }
 
 }
