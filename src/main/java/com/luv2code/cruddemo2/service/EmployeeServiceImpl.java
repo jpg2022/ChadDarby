@@ -1,39 +1,49 @@
 package com.luv2code.cruddemo2.service;
 
-import com.luv2code.cruddemo2.dao.EmployeeDAO;
+
+import com.luv2code.cruddemo2.dao.EmployeeRespositroy;
 import com.luv2code.cruddemo2.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 //Service is for custom business logic, and for combining multiple daos
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
 
-    private EmployeeDAO employeeDAO;
+    private EmployeeRespositroy employeeRespositroy;
     @Autowired
-    public EmployeeServiceImpl(EmployeeDAO theEmployeeDAO){
-        employeeDAO=theEmployeeDAO;
+    public EmployeeServiceImpl(EmployeeRespositroy theEmployeeRepository){
+        employeeRespositroy=theEmployeeRepository;
     }
 
     @Override
     public List<Employee> findAll() {
-        return employeeDAO.findAll();
+        return employeeRespositroy.findAll();
     }
 
     @Override
     public Employee findById(int theId) {
-        return employeeDAO.findById(theId);
+        Optional<Employee> result = employeeRespositroy.findById(theId);
+        Employee theEmploye=null;
+        if(result.isPresent()){
+            theEmploye=result.get();
+        }else{
+            throw new RuntimeException("Did not find employee id");
+        }
+        return theEmploye;
     }
-    @Transactional
+
     @Override
     public Employee save(Employee theEmployee) {
-        return employeeDAO.save(theEmployee);
+        return employeeRespositroy.save(theEmployee);
     }
-    @Transactional
+
     @Override
     public void deleteById(int theId) {
-        employeeDAO.deleteById(theId);
+        employeeRespositroy.deleteById(theId);
     }
 }
