@@ -17,8 +17,8 @@ public class InstructorDetail {
 
     @Column(name="hobby")
     private String hobby;
-//    @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)//look at instructor to find out how they are linked, uses the join column in instructor foreign key
-//    private Instructor instructor;
+@OneToOne(mappedBy = "instructorDetail", cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH,CascadeType.MERGE})//look at instructor to find out how they are linked, uses the join column in instructor foreign key
+    private Instructor instructor;
 
     public InstructorDetail(){
 
@@ -53,13 +53,13 @@ public class InstructorDetail {
         this.hobby = hobby;
     }
 
-//    public Instructor getInstructor() {
-//        return instructor;
-//    }
-//
-//    public void setInstructor(Instructor instructor) {
-//        this.instructor = instructor;
-//    }
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
+    }
 
     @Override
     public String toString() {

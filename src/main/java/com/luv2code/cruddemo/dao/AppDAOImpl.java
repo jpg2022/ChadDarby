@@ -33,8 +33,17 @@ public class AppDAOImpl implements AppDAO{
         entityManager.remove(tempInstructor);
     }
 
-//    @Override
-//    public InstructorDetail findInstructorDetailById(int theId) {
-//        return entityManager.find(InstructorDetail.class, theId);//also returns associated instructor object due to one to one cascade in instructor detail
-//    }
+    @Override
+    public InstructorDetail findInstructorDetailById(int theId) {
+        return entityManager.find(InstructorDetail.class, theId);//also returns associated instructor object due to one to one cascade in instructor detail
+    }
+
+    @Override
+    @Transactional
+    public void deleteInstructorDetailById(int theId) {
+        InstructorDetail tempInstrcutorDetail = entityManager.find(InstructorDetail.class, theId);
+        //break bi direcntional link, bc we are deleting the instructor detail that is linked to the instructor, it should be null after
+        tempInstrcutorDetail.getInstructor().setInstructorDetail(null);
+        entityManager.remove(tempInstrcutorDetail);
+    }
 }
