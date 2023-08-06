@@ -36,7 +36,7 @@ public class CruddemoApplication {
         System.out.println("Deleting instructor with id:" + theId);
 
         appDAO.deleteInstructorById(theId);
-        System.out.println("Done!");
+        System.out.println("Done!");//
     }
 
     private void findInstructor(AppDAO appDAO){
