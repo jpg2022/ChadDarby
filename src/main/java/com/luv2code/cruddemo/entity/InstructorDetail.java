@@ -17,7 +17,7 @@ public class InstructorDetail {
 
     @Column(name="hobby")
     private String hobby;
-@OneToOne(mappedBy = "instructorDetail", cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH,CascadeType.MERGE})//look at instructor to find out how they are linked, uses the join column in instructor foreign key
+    @OneToOne(mappedBy = "instructorDetail", cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH,CascadeType.MERGE})//look at instructor to find out how they are linked, uses the join column in instructor foreign key
     private Instructor instructor;
 
     public InstructorDetail(){
