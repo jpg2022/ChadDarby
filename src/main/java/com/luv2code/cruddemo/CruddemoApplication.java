@@ -4,6 +4,7 @@ import com.luv2code.cruddemo.dao.AppDAO;
 import com.luv2code.cruddemo.entity.Course;
 import com.luv2code.cruddemo.entity.Instructor;
 import com.luv2code.cruddemo.entity.InstructorDetail;
+import com.luv2code.cruddemo.entity.Review;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,20 +21,31 @@ public class CruddemoApplication {
     @Bean
     public CommandLineRunner commandLineRunner(AppDAO appDAO){
         return  runner->{
-//            createInstructor(appDAO);
-//            findInstructor(appDAO);
-//            deleteInstructor(appDAO);
-//            findInstructorDetail(appDAO);
-//            deleteInstructorDetail(appDAO);
-//            z
-//            findInstructorWithCourses(appDAO);
-//            findCoursesForInstructor(appDAO);
-//            findInstructorWithCoursesJoinFetch(appDAO);
-//            updateInstructor(appDAO);
-//            updateCourse(appDAO);
 
-            deleteCourse(appDAO);
+//        createCourseAndReviews(appDAO);
+//            retrieveCourseAndReviews(appDAO);
+            deleteCourseAndReviews(appDAO);
+
      };
+    }
+
+    private void deleteCourseAndReviews(AppDAO appDAO) {
+        appDAO.deleteCourseById(10);
+    }
+
+    private void retrieveCourseAndReviews(AppDAO appDAO) {
+        int theId= 10;
+        Course tempCourse = appDAO.findCourseAndReviewsById(theId);
+        System.out.println(tempCourse);
+        System.out.println(tempCourse.getReviews());
+    }
+
+    private void createCourseAndReviews(AppDAO appDAO) {
+        Course tempCourse = new Course("Pacman");
+        tempCourse.addReview(new Review("Great course!"));
+        tempCourse.addReview(new Review("Cool course!"));
+        tempCourse.addReview(new Review("Sweet course!"));
+        appDAO.save(tempCourse);
     }
 
     private void deleteCourse(AppDAO appDAO) {
