@@ -3,6 +3,7 @@ package com.luv2code.cruddemo.dao;
 import com.luv2code.cruddemo.entity.Course;
 import com.luv2code.cruddemo.entity.Instructor;
 import com.luv2code.cruddemo.entity.InstructorDetail;
+import com.luv2code.cruddemo.entity.Student;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.List;
 public class AppDAOImpl implements AppDAO{
 
     private EntityManager entityManager;
+
 
     @Autowired
     public AppDAOImpl(EntityManager entityManager){
@@ -116,5 +118,34 @@ public class AppDAOImpl implements AppDAO{
         query.setParameter("data", theId);
         Course tempCourse = query.getSingleResult();
         return tempCourse;
+    }
+
+    @Override
+    public Course findCourseAndStudentByCourseId(int theId) {
+        TypedQuery<Course> query = entityManager.createQuery("Select c from Course c JOIN FETCH c.students where c.id =:data", Course.class);
+        query.setParameter("data", theId);
+        Course tempCourse = query.getSingleResult();
+        return tempCourse;
+    }
+
+    @Override
+    public Student findStudentAndCoursesByStudentId(int theId) {
+        TypedQuery<Student> query = entityManager.createQuery("Select s from Student s JOIN FETCH s.courses where s.id =:data", Student.class);
+        query.setParameter("data", theId);
+        Student tempStudent = query.getSingleResult();
+        return tempStudent;
+    }
+
+    @Override
+    @Transactional
+    public void update(Student tempStudent) {
+        entityManager.merge(tempStudent);
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudentById(int theId) {
+        Student theStudent = entityManager.find(Student.class, theId);
+        entityManager.remove(theStudent);
     }
 }
